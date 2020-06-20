@@ -1,5 +1,3 @@
-const db = require('./queryPool');
-//const Expenses = require('../../models').expenses;
 const Expenses = require('../models').expenses;
 const { EXPENSE_NOT_FOUND } = require('../utils/constants');
 const DbError = require('../utils/dbError');
@@ -8,16 +6,6 @@ exports.getExpense = async (user_id) => {
     try {
         const expenseCollection = await Expenses.findAll({ where: { user_id } });
         return expenseCollection;
-    } catch (error) {
-        throw new Error(error);
-    }
-};
-// todo handle later if needed
-exports.getExpenseById = async (user_id, id) => {
-    let response;
-    try {
-        response = await db.query('SELECT * FROM expenses WHERE user_id = $1 id = $2', [user_id, id]);
-        return response.rows;
     } catch (error) {
         throw new Error(error);
     }

@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router({ mergeParams: true });
-const { Pool } = require('pg');
 const usersService = require('../services/usersService');
 const { handleError } = require('../utils/handleError');
 const Response = require('../utils/response');
@@ -61,53 +60,3 @@ router.delete('/', async (req, res) => {
 
 module.exports = router;
 
-// users can update anything apart from id .all the rest must be send eventhough its not changed   todo - route for password
-// router.put('/:idss(\\d+)', (req, res) => {
-//     id = req.params.id;
-//     const { name, last_name, email, phone } = req.body;
-
-//     const resultOutput = {
-//         name,
-//         last_name,
-//     };
-
-//     db.query(
-//         'UPDATE users SET name = $1, last_name = $2 ,email = $3 ,phone = $4  WHERE id = $5',
-//         [name, last_name, email, phone, id],
-//         (error, data) => {
-//             if (error) {
-//                 throw error;
-//             }
-//             res.status(200).send(`User modified : ${JSON.stringify(resultOutput)}`);
-//         },
-//     );
-// });
-
-// router.delete('/:id(\\d+)', (req, res) => {
-//     id = req.params.id;
-//     console.log(id);
-//     db.query('DELETE FROM users WHERE id = $1', [id], (error, data) => {
-//         if (error) {
-//             throw error;
-//         }
-//         res.status(200).send('user was remove');
-//     });
-// });
-
-// router.post('/jsb', (req, res) => {
-//     const { name, last_name, password, email, phone } = req.body;
-//     db.query(
-//         'INSERT INTO users (last_name,name,password,email,phone) VALUES ($1, $2,$3,$4,$5)',
-//         [last_name, name, password, email, phone],
-//         (error, data) => {
-//             if (error) {
-//                 throw error;
-//             }
-//             const output = {
-//                 name,
-//                 last_name,
-//             };
-//             res.status(201).json(`User added : ${JSON.stringify(output)}`); // todo fix "\""
-//         },
-//     );
-// });

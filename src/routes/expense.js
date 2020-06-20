@@ -1,7 +1,5 @@
 const express = require('express');
 const router = express.Router({ mergeParams: true });
-const { Pool } = require('pg');
-const db = require('../services/queryPool');
 const expenseService = require('../services/expenseService');
 const Response = require('../utils/response');
 const { STATUS } = require('../utils/constants');

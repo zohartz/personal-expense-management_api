@@ -1,0 +1,39 @@
+version: '3'
+services:
+    postgress_db:
+        # build: ./db
+        image: postgres
+        environment:
+            POSTGRES_USER: puser
+            POSTGRES_PASSWORD: pass
+            POSTGRES_DB: db
+        ports:
+            #- "35432:5432"
+            - '5432:5432'
+        networks:
+            default:
+    expense_mng_svc:
+        build: ./
+        ports:
+            - 5001:5001
+        environment:
+            DATABASE_URL: postgres://puser:pass@postgres:5432/db
+            DB_HOST: postgress_db
+            POSTGRES_USER: puser
+            POSTGRES_PASSWORD: pass
+            POSTGRES_DB: db
+        # volumes:
+        #   - ./src:/app
+        volumes:
+            - .:/app #any update on my folder on my project in my machine update it on the container app - good for live connection 
+        depends_on:
+            - postgress_db
+        networks:
+            default:
+
+networks:
+    default:
+#const conString = "postgres://YourUserName:YourPassword@YourHost:5432/YourDatabase";
+# if we want service 2 also to get in real time changes from service 1 we need volume to it too
+#localhost:5001 will go to localhost:80 which is where server running
+#where the dockerfile or the image is

@@ -1,0 +1,774 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "version": "1.0.0",
+        "title": "Expense manager service",
+        "description": "Expense manager service",
+        "contact": {
+            "email": "****"
+        }
+    },
+    "tags": [
+        {
+            "name": "Expense",
+            "description": "Info on expenses"
+        },
+        {
+            "name": "User",
+            "description": "Info on Users"
+        },
+        {
+            "name": "Income",
+            "description": "Info on Incomes"
+        }
+    ],
+    "servers": [
+        {
+            "description": "local",
+            "url": "/api/v1"
+        }
+    ],
+    "paths": {
+        "/{user_id}/expenses/{expense_id}": {
+            "get": {
+                "tags": [
+                    "Expense"
+                ],
+                "summary": "Get Expense By Id ",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "description": "User expense Id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/SchemaGETbyID"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "401": {
+                        "description": "Bad request: Authorization token is incorrect"
+                    },
+                    "403": {
+                        "description": "Bad request: Premission Denied Authorization token was not provided"
+                    },
+                    "404": {
+                        "description": "Domain not found"
+                    },
+                    "500": {
+                        "description": "Internal service error"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Expense"
+                ],
+                "summary": "Delete expense by ID",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "description": "User expense Id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "description": "Expense Id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ]
+            }
+        },
+        "/{user_id}/expenses": {
+            "get": {
+                "tags": [
+                    "Expense"
+                ],
+                "summary": "Get user's Expenses ",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "description": "User expense Id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/SchemaGET"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "401": {
+                        "description": "Bad request: Authorization token is incorrect"
+                    },
+                    "403": {
+                        "description": "Bad request: Premission Denied Authorization token was not provided"
+                    },
+                    "404": {
+                        "description": "Domain not found"
+                    },
+                    "500": {
+                        "description": "Internal service error"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Expense"
+                ],
+                "summary": "Update an existing expense",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "description": "Expense Id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "in": "body",
+                        "required": true,
+                        "description": "Expense object that needs to be modified",
+                        "schema": {
+                            "$ref": "#/definitions/SchemaPUT"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid ID supplied",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "Domain not found",
+                        "content": {}
+                    },
+                    "405": {
+                        "description": "Validation exception",
+                        "content": {}
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Expense"
+                ],
+                "summary": "Add expense",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "description": "Expense Id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "in": "body",
+                        "required": true,
+                        "description": "Expense object that needs to be added",
+                        "schema": {
+                            "$ref": "#/definitions/SchemaPOST"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid ID supplied",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "Domain not found",
+                        "content": {}
+                    },
+                    "405": {
+                        "description": "Validation exception",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "/{user_id}/incomes/{income_id}": {
+            "get": {
+                "tags": [
+                    "Incomes"
+                ],
+                "summary": "Get Income By Id ",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "description": "User Income Id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/SchemaGETbyID"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "401": {
+                        "description": "Bad request: Authorization token is incorrect"
+                    },
+                    "403": {
+                        "description": "Bad request: Premission Denied Authorization token was not provided"
+                    },
+                    "404": {
+                        "description": " Income not found"
+                    },
+                    "500": {
+                        "description": "Internal service error"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Incomes"
+                ],
+                "summary": "Delete Income by ID",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "description": "User Income Id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "description": "Income Id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ]
+            }
+        },
+        "/{user_id}/incomes": {
+            "get": {
+                "tags": [
+                    "Income"
+                ],
+                "summary": "Get user's Incomes ",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "description": "User Income Id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/SchemaGET"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "401": {
+                        "description": "Bad request: Authorization token is incorrect"
+                    },
+                    "403": {
+                        "description": "Bad request: Premission Denied Authorization token was not provided"
+                    },
+                    "404": {
+                        "description": "Domain not found"
+                    },
+                    "500": {
+                        "description": "Internal service error"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Expense"
+                ],
+                "summary": "Update an existing Income",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "description": "Income Id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "in": "body",
+                        "required": true,
+                        "description": "Income object that needs to be modified",
+                        "schema": {
+                            "$ref": "#/definitions/SchemaPUT"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid ID supplied",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "Income not found",
+                        "content": {}
+                    },
+                    "405": {
+                        "description": "Validation exception",
+                        "content": {}
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Incomes"
+                ],
+                "summary": "Add Income",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "description": "Income Id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "in": "body",
+                        "required": true,
+                        "description": "Income object that needs to be added",
+                        "schema": {
+                            "$ref": "#/definitions/SchemaPOST"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid ID supplied",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "Income not found",
+                        "content": {}
+                    },
+                    "405": {
+                        "description": "Validation exception",
+                        "content": {}
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get User By Id ",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "description": "User Income Id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "401": {
+                        "description": "Bad request: Authorization token is incorrect"
+                    },
+                    "403": {
+                        "description": "Bad request: Premission Denied Authorization token was not provided"
+                    },
+                    "404": {
+                        "description": " Income not found"
+                    },
+                    "500": {
+                        "description": "Internal service error"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Delete User by ID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "description": "User Id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ]
+            }
+        },
+        "/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get all users ",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "description": "User Income Id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/definitions/UserSchemaGET"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "401": {
+                        "description": "Bad request: Authorization token is incorrect"
+                    },
+                    "403": {
+                        "description": "Bad request: Premission Denied Authorization token was not provided"
+                    },
+                    "404": {
+                        "description": "Domain not found"
+                    },
+                    "500": {
+                        "description": "Internal service error"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update an existing User",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "description": "User Id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "in": "body",
+                        "required": true,
+                        "description": "User object that needs to be modified",
+                        "schema": {
+                            "$ref": "#/definitions/UserSchemaPUT"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid ID supplied",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "User not found",
+                        "content": {}
+                    },
+                    "405": {
+                        "description": "Validation exception",
+                        "content": {}
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Add User",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "required": true,
+                        "description": "Income object that needs to be added",
+                        "schema": {
+                            "$ref": "#/definitions/UserSchemaPOST"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid ID supplied",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "Income not found",
+                        "content": {}
+                    },
+                    "405": {
+                        "description": "Validation exception",
+                        "content": {}
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "SchemaPOST": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "amount",
+                "title",
+                "description",
+                "category"
+            ],
+            "properties": {
+                "amount": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Expense description"
+                },
+                "category": {
+                    "type": "string"
+                }
+            }
+        },
+        "SchemaDELETE": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {}
+        },
+        "SchemaGETbyID": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {}
+        },
+        "SchemaGET": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {}
+        },
+        "SchemaPUT": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "id",
+                "amount",
+                "title",
+                "description",
+                "category"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "amount": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Expense description"
+                },
+                "category": {
+                    "type": "string"
+                }
+            }
+        },
+        "UserSchemaGET": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {}
+        },
+        "UserSchemaGETResponse": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "id",
+                "last_name",
+                "name",
+                "password",
+                "email",
+                "phone"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "last_name": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "email": {
+                    "$ref": "#/definitions/email"
+                },
+                "phone": {
+                    "type": "string"
+                }
+            }
+        },
+        "UserSchemaPUT": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "last_name",
+                "name",
+                "password",
+                "email",
+                "phone"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "last_name": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "email": {
+                    "$ref": "#/definitions/email"
+                },
+                "phone": {
+                    "type": "string"
+                }
+            }
+        },
+        "UserSchemaPOST": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "last_name",
+                "name",
+                "password",
+                "email",
+                "phone"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "last_name": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "email": {
+                    "$ref": "#/definitions/email"
+                },
+                "phone": {
+                    "type": "string"
+                }
+            }
+        },
+        "email": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$",
+            "Example": "abc@gmail.com"
+        }
+    }
+}

@@ -1,4 +1,4 @@
-# personal-expense-management_api
+# personal-expense-management-api
 ```
 Description : API for managing personal expenses and incomes of users 
 ```

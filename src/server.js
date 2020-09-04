@@ -8,10 +8,8 @@ const swaggerDocument = require('./swagger.json');
 const bodyValidator = require('./middlewares/bodyValidator');
 const cors = require('cors');
 
-
 const HOST = '0.0.0.0';
 const PORT = 5001;
-
 
 const app = express();
 app.use(bodyParser.json()); // support json encoded bodies
@@ -19,9 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 // Enabling CORS
 const corsHeaders = {
-    origin: [
-        'http://localhost:3000',
-    ],
+    origin: ['*'],
     methods: 'GET,POST,OPTIONS,PUT,DELETE',
     preflightContinue: false,
     allowedHeaders: ['Content-Type', 'Authorization', 'Host', 'X-Requested-With'],
@@ -63,7 +59,7 @@ app.use(
     incomeRoute,
 );
 
-app.use(`/api/v1/expense_mng/swagger`, swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use(`/api/v1/management/swagger`, swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use('/*', (req, res) => {
     res.status(404).json({

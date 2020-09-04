@@ -15,20 +15,19 @@ router.get('/', async (req, res) => {
     }
 });
 
-// router.get('/:id(\\d+)', async (req, res) => {
-//     try {
-//         const incomeResult = await IncomesService.getIncomeById(req.params.id);
-
-//         res.status(200).send(incomeResult);
-//     } catch (e) {
-//         console.log(e.message);
-//         res.status(500).send(e.message);
-//     }
-// });
+router.get('/summary', async (req, res) => {
+    try {
+        const allIncomes = await expenseService.getIncomesSummary(req.params.user_id);
+        const response = new Response(STATUS.OK, `user with id ${req.params.user_id} expenses`, allIncomes);
+        res.status(200).send(response);
+    } catch (e) {
+        handleError(req, res, e);
+    }
+});
 
 router.post('/', async (req, res) => {
     try {
-        const { amount, title, description, category } = req.body;
+        const { amount, title, description, category, date } = req.body;
 
         const newExpense = await IncomesService.addIncomes(req);
 
@@ -37,6 +36,7 @@ router.post('/', async (req, res) => {
             title,
             description,
             category,
+            date,
         };
         const response = new Response(STATUS.OK, `Income ${title} was addedd`, output);
         res.status(201).json(response);
@@ -59,7 +59,7 @@ router.put('/', async (req, res) => {
 
 router.delete('/', async (req, res) => {
     try {
-        const removeResult = await IncomesService.removeIncome(req.params.id,req.params.user_id);
+        const removeResult = await IncomesService.removeIncome(req.params.id, req.params.user_id);
         const response = new Response(STATUS.OK, `Income was removed`);
         res.status(200).send(response);
     } catch (e) {
@@ -68,5 +68,3 @@ router.delete('/', async (req, res) => {
 });
 
 module.exports = router;
-
-

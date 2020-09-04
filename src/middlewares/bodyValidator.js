@@ -17,9 +17,13 @@ exports.validate = (req, res, next) => {
     // Extract resource from originalUrl
     const striptOriginalUrl = req.originalUrl.replace(TRAILING_SLASH_REGEX, '');
     const route = striptOriginalUrl.substring(striptOriginalUrl.lastIndexOf('/') + 1).slice(0, -1);
+    const originalUrl = req.originalUrl.toLocaleLowerCase()
     console.log('in body now');
 
-    if (req.originalUrl.toLocaleLowerCase().includes('users')) {
+    if (originalUrl.includes('login')){
+        validated = ajv.validate({ $ref: `swagger.json#/definitions/UserSchema${req.method}login` }, req.body);
+    }
+    else if (originalUrl.includes('users')) {
         validated = ajv.validate({ $ref: `swagger.json#/definitions/UserSchema${req.method}` }, req.body);
     } else {
         validated = ajv.validate({ $ref: `swagger.json#/definitions/Schema${req.method}` }, req.body);

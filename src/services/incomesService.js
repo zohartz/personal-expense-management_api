@@ -10,21 +10,26 @@ exports.getIncomes = async (user_id) => {
         throw new Error(error);
     }
 };
-// todo handle laster in needed
-// exports.getIncomeById = async (id) => {
-//     let response;
-//     try {
-//         response = await db.query('SELECT * FROM incomes WHERE id = $1', [id]);
-//         //console.log(response)
-//         return response.rows;
-//     } catch (error) {
-//         throw new DbError(error.message, 500);
-//     }
-// };
+
+exports.getIncomesSummary = async (user_id) => {
+    const startOfMonth = moment().startOf('month').format('YYYY-MM-DD');
+    const endOfMonth = moment().endOf('month').format('YYYY-MM-DD');
+    let query = {
+        where: {
+            date: {
+                [Op.gte]: startOfMonth,
+                [Op.lte]: endOfMonth,
+            },
+            user_id,
+        },
+    };
+    expenseCollection = await Incomes.findAll(query);
+    return expenseCollection;
+};
 
 exports.addIncomes = async (req) => {
     const user_id = req.params.user_id;
-    const { amount, title, description, category } = req.body;
+    const { amount, title, description, category, date } = req.body;
     let CreateIncomeRes;
     try {
         CreateIncomeRes = await Incomes.create({
@@ -33,6 +38,7 @@ exports.addIncomes = async (req) => {
             title,
             description,
             category,
+            date,
         });
         return CreateIncomeRes;
     } catch (error) {
@@ -42,26 +48,18 @@ exports.addIncomes = async (req) => {
 
 exports.updateIncome = async (req) => {
     const user_id = req.params.user_id;
-    const { id, amount, title, description, category } = req.body;
-    //try {
-    updateIncomeRes = await Incomes.update({ amount, title, description, category }, { where: { id,user_id } });
+    const { id, amount, title, description, category, date } = req.body;
+    updateIncomeRes = await Incomes.update({ amount, title, description, category, date }, { where: { id,user_id } });
     if (!updateIncomeRes[0]) {
         throw new DbError(INCOME_NOT_FOUND, 404);
     }
     return updateIncomeRes;
-    // } catch (error) {
-    //     throw new Error(error);
-    // }
 };
 
 exports.removeIncome = async (id,user_id) => {
-    //try {
     removeIncomeRes = await Incomes.destroy({ where: { id,user_id } });
     if (!removeIncomeRes) {
         throw new DbError(INCOME_NOT_FOUND, 404);
     }
     return removeIncomeRes;
-    // } catch (error) {
-    //     throw new Error(error);
-    // }
 };

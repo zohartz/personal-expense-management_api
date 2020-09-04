@@ -15,6 +15,17 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.post('/login', async (req, res) => {
+    try {
+        console.log(req.body.email)
+        const user = await usersService.getUser(req.body.email, req.body.password);
+        const response = new Response(STATUS.OK, 'user logged in successfully');
+        res.status(200).send(response);
+    } catch (e) {
+        handleError(req, res, e);
+    }
+});
+
 router.post('/', async (req, res) => {
     try {
         const { name, last_name, password, email, phone } = req.body;

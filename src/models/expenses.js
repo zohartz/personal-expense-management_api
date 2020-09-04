@@ -7,7 +7,8 @@ module.exports = (sequelize, DataTypes) => {
     title: DataTypes.STRING,
     description: DataTypes.STRING,
     category: DataTypes.STRING,
-    currency: DataTypes.INTEGER
+    currency: DataTypes.INTEGER,
+    date: DataTypes.DATEONLY
   }, {});
   expenses.associate = function(models) {
     // each expense belongs to one user id 

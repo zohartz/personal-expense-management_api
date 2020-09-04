@@ -18,22 +18,19 @@ router.get('/', async (req, res) => {
     }
 });
 
-// handle in Ui for now
-// router.get('/:id(\\d+)', async (req, res) => {
-//     try {
-//         console.log("one expenses")
-//         const expenseResult = await expenseService.getExpenseById(req.params.user_id,req.params.id);
-
-//         res.status(200).send(expenseResult);
-//     } catch (e) {
-//         console.log(e.message);
-//         res.status(500).send(e.message);
-//     }
-// });
+router.get('/summary', async (req, res) => {
+    try {
+        const allExpense = await expenseService.getExpensesSummary(req.params.user_id);
+        const response = new Response(STATUS.OK, `user with id ${req.params.user_id} expenses`, allExpense);
+        res.status(200).send(response);
+    } catch (e) {
+        handleError(req, res, e);
+    }
+});
 
 router.post('/', async (req, res) => {
     try {
-        const { amount, title, description, category } = req.body;
+        const { amount, title, description, category, date } = req.body;
         const newExpense = await expenseService.addExpenses(req);
 
         const output = {
@@ -41,6 +38,7 @@ router.post('/', async (req, res) => {
             title,
             description,
             category,
+            date,
         };
         const response = new Response(STATUS.OK, `Expense ${title} was addedd`, output);
         res.status(201).json(response);

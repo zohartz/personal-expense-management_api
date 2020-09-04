@@ -480,6 +480,38 @@
                 ]
             }
         },
+        "/users/login": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Add User",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "required": true,
+                        "description": "user loginb",
+                        "schema": {
+                            "$ref": "#/definitions/UserSchemaPOSTlogin"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": " Not Found",
+                        "content": {}
+                    },
+                    "405": {
+                        "description": "Validation exception",
+                        "content": {}
+                    }
+                }
+            }
+        },
         "/users": {
             "get": {
                 "tags": [
@@ -581,11 +613,11 @@
                 ],
                 "responses": {
                     "400": {
-                        "description": "Invalid ID supplied",
+                        "description": "Bad Request",
                         "content": {}
                     },
                     "404": {
-                        "description": "Income not found",
+                        "description": " Not Found",
                         "content": {}
                     },
                     "405": {
@@ -604,7 +636,8 @@
                 "amount",
                 "title",
                 "description",
-                "category"
+                "category",
+                "date"
             ],
             "properties": {
                 "amount": {
@@ -619,6 +652,9 @@
                 },
                 "category": {
                     "type": "string"
+                },
+                "date": {
+                    "$ref": "#/definitions/date"
                 }
             }
         },
@@ -645,7 +681,8 @@
                 "amount",
                 "title",
                 "description",
-                "category"
+                "category",
+                "date"
             ],
             "properties": {
                 "id": {
@@ -663,6 +700,9 @@
                 },
                 "category": {
                     "type": "string"
+                },
+                "date": {
+                    "$ref": "#/definitions/date"
                 }
             }
         },
@@ -769,6 +809,28 @@
             "type": "string",
             "pattern": "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$",
             "Example": "abc@gmail.com"
+        },
+        "date" :{
+            "type":"string",
+            "pattern":"[12]\\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])",
+            "Example": "2020-08-30"
+        },
+        "UserSchemaPOSTlogin": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "password",
+                "email"
+            ],
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "email": {
+                    "$ref": "#/definitions/email" 
+                }
+            }
+
         }
     }
 }
